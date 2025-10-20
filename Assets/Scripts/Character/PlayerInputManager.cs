@@ -9,6 +9,9 @@ namespace Alpha
         private PlayerControls playerControls;
 
         [SerializeField] private Vector2 movementInput;
+        [SerializeField] private float horizontalInput;
+        [SerializeField] private float verticalInput;
+        [SerializeField] private float moveAmount;
         
         private void OnEnable()
         {
@@ -36,6 +39,11 @@ namespace Alpha
             SceneManager.activeSceneChanged += OnSceneChange;
         }
 
+        private void Update()
+        {
+            HandleMovementInput();
+        }
+
         private void OnDestroy()
         {
             SceneManager.activeSceneChanged -= OnSceneChange;
@@ -50,6 +58,23 @@ namespace Alpha
             else
             {
                 instance.enabled = false;
+            }
+        }
+
+        private void HandleMovementInput()
+        {
+            verticalInput = movementInput.y;
+            horizontalInput = movementInput.x;
+
+            moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horizontalInput));
+
+            if (moveAmount <= 0.5f && moveAmount > 0)
+            {
+                moveAmount = 0.5f;
+            }
+            else if(moveAmount > 0.5f && moveAmount <= 1f)
+            {
+                moveAmount = 1f;
             }
         }
     }
