@@ -23,5 +23,13 @@ namespace Alpha
         {
 
         }
+
+        public void HandleGroundedMovement()
+        {
+            moveDirection = PlayerCamera.instance.transform.forward * verticalMovement;
+            moveDirection += PlayerCamera.instance.transform.right * horizontalMovement;
+            moveDirection.Normalize();
+            moveDirection.y = 0f;
+        }
     }
 }
