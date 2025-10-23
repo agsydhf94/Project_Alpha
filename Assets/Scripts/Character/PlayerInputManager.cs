@@ -11,7 +11,7 @@ namespace Alpha
         [SerializeField] private Vector2 movementInput;
         [SerializeField] private float horizontalInput;
         [SerializeField] private float verticalInput;
-        [SerializeField] private float moveAmount;
+        public float moveAmount;
         
         private void OnEnable()
         {

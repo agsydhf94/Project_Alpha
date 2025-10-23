@@ -12,6 +12,10 @@ namespace Alpha
 
         private Vector3 moveDirection;
 
+        [SerializeField] private float walkingSpeed;
+        [SerializeField] private float runningSpeed;
+        
+
         protected override void Awake()
         {
             base.Awake();
@@ -21,7 +25,7 @@ namespace Alpha
 
         public void HandleAllMovement()
         {
-
+            HandleGroundedMovement();
         }
 
         public void HandleGroundedMovement()
@@ -30,6 +34,15 @@ namespace Alpha
             moveDirection += PlayerCamera.instance.transform.right * horizontalMovement;
             moveDirection.Normalize();
             moveDirection.y = 0f;
+
+            if (PlayerInputManager.instance.moveAmount > 0.5f)
+            {
+                player.characterController.Move(moveDirection * runningSpeed * Time.deltaTime);
+            }
+            else if(PlayerInputManager.instance.moveAmount <= 0.5f)
+            {
+                player.characterController.Move(moveDirection * walkingSpeed * Time.deltaTime);
+            }
         }
     }
 }
