@@ -17,5 +17,10 @@ namespace Alpha
                 Destroy(gameObject);
             }
         }
+
+        private void Start()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
     }
 }
