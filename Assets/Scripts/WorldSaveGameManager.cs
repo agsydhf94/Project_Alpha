@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class WorldSaveGameManager : MonoBehaviour
 {
-    private static WorldSaveGameManager instance;
+    public static WorldSaveGameManager instance;
 
     [SerializeField] private int worldSceneIndex;
 
@@ -30,5 +30,10 @@ public class WorldSaveGameManager : MonoBehaviour
         AsyncOperation loadOperator = SceneManager.LoadSceneAsync(worldSceneIndex);
 
         yield return null;
+    }
+
+    public int GetWorldSceneIndex()
+    {
+        return worldSceneIndex;
     }
 }
