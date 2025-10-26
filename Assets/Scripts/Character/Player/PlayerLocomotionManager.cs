@@ -28,8 +28,16 @@ namespace Alpha
             HandleGroundedMovement();
         }
 
+        private void GetVerticalAndHorizontalInputs()
+        {
+            verticalMovement = PlayerInputManager.instance.verticalInput;
+            horizontalMovement = PlayerInputManager.instance.horizontalInput;
+        }
+
         public void HandleGroundedMovement()
         {
+            GetVerticalAndHorizontalInputs();
+            
             moveDirection = PlayerCamera.instance.transform.forward * verticalMovement;
             moveDirection += PlayerCamera.instance.transform.right * horizontalMovement;
             moveDirection.Normalize();
