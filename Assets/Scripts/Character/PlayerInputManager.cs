@@ -49,6 +49,21 @@ namespace Alpha
             SceneManager.activeSceneChanged -= OnSceneChange;
         }
 
+        private void OplicationFocus(bool focus)
+        {
+            if(enabled)
+            {
+                if (focus)
+                {
+                    playerControls.Enable();
+                }
+                else
+                {
+                    playerControls.Disable();
+                }
+            }
+        }
+
         private void OnSceneChange(Scene oldScene, Scene newScene)
         {
             if (newScene.buildIndex == WorldSaveGameManager.instance.GetWorldSceneIndex())
