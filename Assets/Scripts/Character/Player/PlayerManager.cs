@@ -16,6 +16,11 @@ namespace Alpha
         {
             base.Update();
 
+            if(!IsOwner)
+            {
+                return;
+            }
+
             playerLocomotionManager.HandleAllMovement();
         }
     }
