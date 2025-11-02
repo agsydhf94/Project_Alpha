@@ -14,5 +14,6 @@ namespace Alpha
 
         public Vector3 networkPositionVelocity;
         public float networkPositionSmoothTime = 0.1f;
+        public float networkRotationSmoothTime = 0.1f;
     }
 }
