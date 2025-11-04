@@ -42,5 +42,10 @@ namespace Alpha
                     );
             }
         }
+
+        protected virtual void LateUpdate()
+        {
+            
+        }
     }
 }

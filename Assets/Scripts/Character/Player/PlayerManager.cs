@@ -23,6 +23,18 @@ namespace Alpha
 
             playerLocomotionManager.HandleAllMovement();
         }
+        
+        protected override void LateUpdate()
+        {
+            if (!IsOwner)
+            {
+                return;
+            }
+
+            base.LateUpdate();
+
+            PlayerCamera.instance.HandleAllCameraActions();
+        }
 
         public override void OnNetworkSpawn()
         {
