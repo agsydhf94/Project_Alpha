@@ -11,15 +11,20 @@ namespace Alpha
 
         [Header("Camera Settings")]
         private float cameraSmoothSpeed = 1f;
-        private float leftAndRightRotationSpeed;
-        private float upAndDownRotationSpeed;
+        [SerializeField] private float leftAndRightRotationSpeed;
+        [SerializeField] private float upAndDownRotationSpeed;
         [SerializeField] private float minimumPivot = -30f;
         [SerializeField] private float maximumPivot = 60f;
+        [SerializeField] private float cameraCollisionRadius;
+        [SerializeField] LayerMask collideWithLayers;
 
         [Header("Camera Values")]
         private Vector3 cameraVelocity;
+        private Vector3 cameraObjectPosition;
         [SerializeField] private float leftAndRightLookAngle;
         [SerializeField] private float upAndDownLookAngle;
+        private float cameraZPosition;
+        private float targetCameraZPosition;
 
         private void Awake()
         {
@@ -36,6 +41,7 @@ namespace Alpha
         private void Start()
         {
             DontDestroyOnLoad(gameObject);
+            cameraZPosition = cameraObject.transform.localPosition.z;
         }
 
         public void HandleAllCameraActions()
@@ -44,6 +50,7 @@ namespace Alpha
             {
                 HandleFollowTarget();
                 HandleRotations();
+                HandleCollisions();
             }
         }
 
@@ -70,6 +77,28 @@ namespace Alpha
             cameraRotation.x = upAndDownLookAngle;
             targetRotation = Quaternion.Euler(cameraRotation);
             cameraPivotTransform.localRotation = targetRotation;
+        }
+
+        private void HandleCollisions()
+        {
+            targetCameraZPosition = cameraZPosition;
+            RaycastHit hit;
+            Vector3 direction = cameraObject.transform.position - cameraPivotTransform.position;
+            direction.Normalize();
+
+            if (Physics.SphereCast(cameraPivotTransform.position, cameraCollisionRadius, direction, out hit, Mathf.Abs(targetCameraZPosition), collideWithLayers))
+            {
+                float distanceFromHitObject = Vector3.Distance(cameraPivotTransform.position, hit.point);
+                targetCameraZPosition = -(distanceFromHitObject - cameraCollisionRadius);
+            }
+
+            if (Mathf.Abs(targetCameraZPosition) < cameraCollisionRadius)
+            {
+                targetCameraZPosition = -cameraCollisionRadius;
+            }
+
+            cameraObjectPosition.z = Mathf.Lerp(cameraObject.transform.localPosition.z, targetCameraZPosition, 0.2f);
+            cameraObject.transform.localPosition = cameraObjectPosition;
         }
     }
 }
